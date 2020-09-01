@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.shop.dao.ShopcartMapper">
+  <resultMap id="BaseResultMap" type="com.neu.shop.pojo.Shopcart">
+    <id column="userId" jdbcType="INTEGER" property="userid" />
+    <id column="goodsid" jdbcType="INTEGER" property="goodsid" />
+    <result column="cateDate" jdbcType="TIMESTAMP" property="catedate" />
+    <result column="goodsNum" jdbcType="INTEGER" property="goodsnum" />
+    <result column="goodsSum" jdbcType="DOUBLE" property="goodssum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userId, goodsid, cateDate, goodsNum, goodsSum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.neu.shop.pojo.ShopcartKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shopcart
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shopcart
+    where userId = #{value}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="com.neu.shop.pojo.ShopcartKey">
+    delete from shopcart
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.neu.shop.pojo.Shopcart">
+    insert into shopcart (userId, goodsid, cateDate, 
+      goodsNum, goodsSum)
+    values (#{userid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{catedate,jdbcType=TIMESTAMP}, 
+      #{goodsnum,jdbcType=INTEGER}, #{goodssum,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neu.shop.pojo.Shopcart">
+    insert into shopcart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="goodsid != null">
+        goodsid,
+      </if>
+      <if test="catedate != null">
+        cateDate,
+      </if>
+      <if test="goodsnum != null">
+        goodsNum,
+      </if>
+      <if test="goodssum != null">
+        goodsSum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null">
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="catedate != null">
+        #{catedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsnum != null">
+        #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodssum != null">
+        #{goodssum,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neu.shop.pojo.Shopcart">
+    update shopcart
+    <set>
+      <if test="catedate != null">
+        cateDate = #{catedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsnum != null">
+        goodsNum = #{goodsnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodssum != null">
+        goodsSum = #{goodssum,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neu.shop.pojo.Shopcart">
+    update shopcart
+    set cateDate = #{catedate,jdbcType=TIMESTAMP},
+      goodsNum = #{goodsnum,jdbcType=INTEGER},
+      goodsSum = #{goodssum,jdbcType=DOUBLE}
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByAddOne" parameterType="com.neu.shop.pojo.ShopcartKey">
+   update shopcart
+   set goodsNum = goodsNum + 1
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByDeduceOne" parameterType="com.neu.shop.pojo.ShopcartKey">
+    update shopcart
+   set goodsNum = goodsNum - 1
+    where userId = #{userid,jdbcType=INTEGER}
+      and goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+</mapper>

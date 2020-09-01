@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.shop.dao.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.neu.shop.pojo.Category">
+    <id column="cateId" jdbcType="INTEGER" property="cateid" />
+    <result column="cateName" jdbcType="VARCHAR" property="catename" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cateId, cateName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where cateId = #{cateid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllCategories"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+  </select>
+  
+  <select id="selectRepeat"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where cateName = #{value}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from category
+    where cateId = #{cateid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.neu.shop.pojo.Category">
+    insert into category (cateId, cateName)
+    values (#{cateid,jdbcType=INTEGER}, #{catename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neu.shop.pojo.Category">
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cateid != null">
+        cateId,
+      </if>
+      <if test="catename != null">
+        cateName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cateid != null">
+        #{cateid,jdbcType=INTEGER},
+      </if>
+      <if test="catename != null">
+        #{catename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neu.shop.pojo.Category">
+    update category
+    <set>
+      <if test="catename != null">
+        cateName = #{catename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cateId = #{cateid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neu.shop.pojo.Category">
+    update category
+    set cateName = #{catename,jdbcType=VARCHAR}
+    where cateId = #{cateid,jdbcType=INTEGER}
+  </update>
+</mapper>

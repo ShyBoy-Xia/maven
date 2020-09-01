@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.shop.dao.CategorySecMapper">
+  <resultMap id="BaseResultMap" type="com.neu.shop.pojo.CategorySec">
+    <id column="catesecId" jdbcType="INTEGER" property="catesecid" />
+    <result column="cateId" jdbcType="INTEGER" property="cateid" />
+    <result column="catesecName" jdbcType="VARCHAR" property="catesecname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    catesecId, cateId, catesecName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category_sec
+    where catesecId = #{catesecid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFirstCategory" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category_sec
+    where cateId = #{value,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category_sec
+  </select>
+  <select id="selectRepeat" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category_sec
+    where catesecName = #{value}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from category_sec
+    where catesecId = #{catesecid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.neu.shop.pojo.CategorySec">
+    insert into category_sec (catesecId, cateId, catesecName
+      )
+    values (#{catesecid,jdbcType=INTEGER}, #{cateid,jdbcType=INTEGER}, #{catesecname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.neu.shop.pojo.CategorySec">
+    insert into category_sec
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="catesecid != null">
+        catesecId,
+      </if>
+      <if test="cateid != null">
+        cateId,
+      </if>
+      <if test="catesecname != null">
+        catesecName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="catesecid != null">
+        #{catesecid,jdbcType=INTEGER},
+      </if>
+      <if test="cateid != null">
+        #{cateid,jdbcType=INTEGER},
+      </if>
+      <if test="catesecname != null">
+        #{catesecname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neu.shop.pojo.CategorySec">
+    update category_sec
+    <set>
+      <if test="cateid != null">
+        cateId = #{cateid,jdbcType=INTEGER},
+      </if>
+      <if test="catesecname != null">
+        catesecName = #{catesecname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where catesecId = #{catesecid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neu.shop.pojo.CategorySec">
+    update category_sec
+    set cateId = #{cateid,jdbcType=INTEGER},
+      catesecName = #{catesecname,jdbcType=VARCHAR}
+    where catesecId = #{catesecid,jdbcType=INTEGER}
+  </update>
+</mapper>
